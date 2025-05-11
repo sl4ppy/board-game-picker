@@ -175,7 +175,7 @@ export default function Picker() {
             <Input
                 onChange={(e) => setUsername(e.target.value)}
                 className="form"
-                #placeholder="BGG username"
+                // placeholder="BGG username"
                 placeholder="flapj4cks" 
                 size="lg"
                 style={{
