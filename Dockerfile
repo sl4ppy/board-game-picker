@@ -1,5 +1,5 @@
 FROM node:16
-
+LABEL name="bgpicker"
 WORKDIR /opt/bgpicker
 
 ## Install dependencies
