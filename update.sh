@@ -9,7 +9,9 @@
 set -e
 
 # Main script logic
-sudo docker stop bgpicker
+if sudo docker ps --filter "name=bgpicker" --filter "status=running" | grep -q bgpicker; then
+    sudo docker stop bgpicker
+fi
 git pull
 sudo docker build . -t bgpicker
 sudo docker run -p 3000:3000 -d bgpicker
