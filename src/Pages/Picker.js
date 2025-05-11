@@ -393,3 +393,6 @@ export default function Picker() {
         </div>
     )
 }
+useEffect(() => {
+    setUsername('flapj4cks');
+}, []);
