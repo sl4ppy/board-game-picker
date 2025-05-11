@@ -38,7 +38,7 @@ export default function Picker() {
     })
 
     const [username, setUsername] = useState('flapj4cks') // Default username set here
-    const [activeUsername, setActiveUsername] = useState('')
+    const [activeUsername, setActiveUsername] = useState('flapj4cks')
 
     const [minRating, setMinRating] = useState(null)
     const [rating, setRating] = useState(null) // Max. Rating
