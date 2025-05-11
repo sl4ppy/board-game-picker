@@ -30,20 +30,20 @@ function App() {
             <Route exact path="/support" component={Support}/>
 
 			<footer>
-                <Text color="gray.500" fontSize="sm">
+                <Text color="gray.400" fontSize="sm">
                     <Link href="/" >Home</Link>
                 </Text>
-                <Text color="gray.500" fontSize="sm">
+                <Text color="gray.400" fontSize="sm">
                     <Link href="https://github.com/alfremedpal/board-game-picker" isExternal>Source code</Link> | &nbsp;
                     <Link href="/support">Support me</Link> | &nbsp;
                     <Link href="/whats-coming" >Coming features</Link> | &nbsp;
                     <Link onClick={onOpen}>About</Link>
                 </Text>
-                <Text color="gray.500" fontSize="sm">
+                <Text color="gray.400" fontSize="sm">
                     All data gathered possible to the official BGG API.
                 </Text>
-                <small style={{fontSize:'0.6em', color:'#CBD5E0'}}>
-                    Ver. 0.4.0
+                <small style={{fontSize:'0.6em', color:'#A0AEC0'}}>
+                    Ver. 0.4.2
                 </small>
             </footer>
             <Modal isOpen={isOpen} onClose={onClose} />
