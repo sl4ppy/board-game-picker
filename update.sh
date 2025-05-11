@@ -9,7 +9,7 @@
 set -e
 
 # Main script logic
-sudo docker stop bgpicker
+sudo docker stop objective_jones
 git pull
 sudo docker build . -t bgpicker
 sudo docker run -p 3000:3000 -d bgpicker
