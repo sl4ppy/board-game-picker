@@ -11,6 +11,7 @@ import {
   AccordionItem,
   AccordionButton,
   AccordionPanel,
+  AccordionIcon, // Add this import
   Checkbox,
   useToast,
   Icon,
