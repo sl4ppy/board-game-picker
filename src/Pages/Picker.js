@@ -392,7 +392,7 @@ export default function Picker() {
             </Accordion>
         </div>
     )
+    useEffect(() => {
+        setUsername('flapj4cks');
+    }, []);
 }
-useEffect(() => {
-    setUsername('flapj4cks');
-}, []);
