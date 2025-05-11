@@ -26,45 +26,45 @@ import { formatName, filterPlayerCount } from '../Utils'
 export default function Picker() {
 
     const MAX_RETRY = 5;
-	let currentRetry = 1;
-	axios.interceptors.response.use(function (response) {
-		if (response.data.status === 202) {
-			throw new axios.Cancel('Waiting for collection');
-		} else {
-		  return response;
-		}
-	  }, function (error) {
-		return Promise.reject(error);
-	})
+    let currentRetry = 1;
+    axios.interceptors.response.use(function (response) {
+        if (response.data.status === 202) {
+            throw new axios.Cancel('Waiting for collection');
+        } else {
+          return response;
+        }
+      }, function (error) {
+        return Promise.reject(error);
+    })
 
-	const [username, setUsername] = useState('')
-	const [activeUsername, setActiveUsername] = useState('')
+    const [username, setUsername] = useState('flapj4cks') // Default username set here
+    const [activeUsername, setActiveUsername] = useState('')
 
-	const [minRating, setMinRating] = useState(null)
-	const [rating, setRating] = useState(null) // Max. Rating
-	const [minBGGRating, setMinBGGRating] = useState(null)
-	const [numPlayers, setNumPlayers] = useState(null)
-	const [minPlayerCount, setMinPlayerCount] = useState(null)
-	const [maxPlayerCount, setMaxPlayerCount] = useState(null)
-	const [rated, setRated] = useState(false)
-	const [played, setPlayed] = useState(false)
-	const [comment, setComment] = useState(false)
-	const [hideExpansions, setHideExpansions] = useState(false)
+    const [minRating, setMinRating] = useState(null)
+    const [rating, setRating] = useState(null) // Max. Rating
+    const [minBGGRating, setMinBGGRating] = useState(null)
+    const [numPlayers, setNumPlayers] = useState(null)
+    const [minPlayerCount, setMinPlayerCount] = useState(null)
+    const [maxPlayerCount, setMaxPlayerCount] = useState(null)
+    const [rated, setRated] = useState(false)
+    const [played, setPlayed] = useState(false)
+    const [comment, setComment] = useState(false)
+    const [hideExpansions, setHideExpansions] = useState(false)
 
-	const [activeCollection, setActivecollection] = useState([])
-	const [chosenGame, setChosenGame] = useState()
+    const [activeCollection, setActivecollection] = useState([])
+    const [chosenGame, setChosenGame] = useState()
 
-	const toast = useToast()
-	const [loading, setLoading] = useState(false)
+    const toast = useToast()
+    const [loading, setLoading] = useState(false)
 
-	const chooseRandomeGame = useCallback(() => {
-		const game = activeCollection[Math.floor(Math.random() * activeCollection.length)]
-		setChosenGame(game)
-	}, [activeCollection])
+    const chooseRandomeGame = useCallback(() => {
+        const game = activeCollection[Math.floor(Math.random() * activeCollection.length)]
+        setChosenGame(game)
+    }, [activeCollection])
 
-	useEffect(() => {
-		chooseRandomeGame()
-	}, [activeCollection, chooseRandomeGame])
+    useEffect(() => {
+        chooseRandomeGame()
+    }, [activeCollection, chooseRandomeGame])
 
     // Success handler - Collection downloaded
     const successHandler = (responses) => {
@@ -110,25 +110,25 @@ export default function Picker() {
         }
     }
 
-	// Error handler - collection either took too long to be downloaded or username does no exists
-	const errorHandler = (err) => {
-		console.log(err.response)
-		if (currentRetry < MAX_RETRY) {
-			currentRetry++;
-			console.log('Retrying...');
-			setTimeout(requestCollection, 1000 * currentRetry)
-		} else {
-			setLoading(false)
-			toast({
-				title: "Not found or took too long",
-				description: "Either the username does not exists, or BGG took too long to generate your collection, try again",
-				status: "warning",
-				duration: 9000,
-				isClosable: true,
-			})
-			console.log('Retried several times but still failed');
-		}
-	}
+    // Error handler - collection either took too long to be downloaded or username does no exists
+    const errorHandler = (err) => {
+        console.log(err.response)
+        if (currentRetry < MAX_RETRY) {
+            currentRetry++;
+            console.log('Retrying...');
+            setTimeout(requestCollection, 1000 * currentRetry)
+        } else {
+            setLoading(false)
+            toast({
+                title: "Not found or took too long",
+                description: "Either the username does not exists, or BGG took too long to generate your collection, try again",
+                status: "warning",
+                duration: 9000,
+                isClosable: true,
+            })
+            console.log('Retried several times but still failed');
+        }
+    }
 
     // Actual request to download collection
     const requestCollection = () => {
@@ -392,7 +392,4 @@ export default function Picker() {
             </Accordion>
         </div>
     )
-    useEffect(() => {
-        setUsername('flapj4cks');
-    }, []);
 }
