@@ -12,6 +12,7 @@ COPY src ./src
 RUN yarn build
 
 ## Install serve to be used to serve the static site
+RUN npm install react-router-dom@latest
 RUN npm install -g serve
 
 ## Run the app
