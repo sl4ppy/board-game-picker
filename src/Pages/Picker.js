@@ -173,10 +173,10 @@ export default function Picker() {
                 Use the filters under the 'Advanced' menu to refine your collection to your liking. 
             </Text>
             <Input
+                value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="form"
-                // placeholder="BGG username"
-                placeholder="flapj4cks" 
+                placeholder="BGG username"
                 size="lg"
                 style={{
                     margin: '10px 0 10px 0',
