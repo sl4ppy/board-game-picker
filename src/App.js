@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom'; // Use Switch for v5
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'; // Use Switch for v5
 import { useDisclosure, Text, Link } from '@chakra-ui/react';
 
 import Home from './Pages/Home';
@@ -17,13 +17,15 @@ function App() {
 
   return (
     <div className="App">
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/game-picker" component={Picker} />
-        <Route path="/ranking-engine" component={Ranking} />
-        <Route path="/whats-coming" component={Future} />
-        <Route path="/support" component={Support} />
-      </Switch>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/game-picker" component={Picker} />
+          <Route path="/ranking-engine" component={Ranking} />
+          <Route path="/whats-coming" component={Future} />
+          <Route path="/support" component={Support} />
+        </Switch>
+      </Router>
 
       <footer>
         <Text color="gray.400" fontSize="sm">
