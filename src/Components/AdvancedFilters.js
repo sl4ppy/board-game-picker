@@ -130,7 +130,7 @@ export default function AdvancedFilters({ filters, setFilters }) {
           <Box mb={4}>
             <Checkbox
               isChecked={filters.nonRecencyBias}
-              onChange={(e) => handleFilterChange('nonRecencyBias', e.target.checked)}
+              onChange={(e) => setFilters(prev => ({ ...prev, nonRecencyBias: e.target.checked }))}
             >
               Non-recency Bias
             </Checkbox>
