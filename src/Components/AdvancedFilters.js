@@ -126,6 +126,15 @@ export default function AdvancedFilters({ filters, setFilters }) {
               Hide Expansions
             </Checkbox>
           </Box>
+
+          <Box mb={4}>
+            <Checkbox
+              isChecked={filters.nonRecencyBias}
+              onChange={(e) => handleFilterChange('nonRecencyBias', e.target.checked)}
+            >
+              Non-recency Bias
+            </Checkbox>
+          </Box>
         </AccordionPanel>
       </AccordionItem>
     </Accordion>

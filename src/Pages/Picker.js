@@ -42,15 +42,44 @@ export default function Picker() {
     played: false,
     comment: false,
     hideExpansions: true,
+    nonRecencyBias: false, // <-- add this line
   });
   const [activeCollection, setActiveCollection] = useState([]);
   const [chosenGame, setChosenGame] = useState();
   const [loading, setLoading] = useState(false);
 
   const chooseRandomGame = useCallback(() => {
-    const game = activeCollection[Math.floor(Math.random() * activeCollection.length)];
-    setChosenGame(game);
-  }, [activeCollection]);
+    if (!activeCollection.length) return;
+
+    let collection = activeCollection;
+
+    if (filters.nonRecencyBias) {
+      // Assign weights: games not played recently get higher weight
+      const now = new Date();
+      const weights = collection.map(game => {
+        const lastPlayed = game.stats?.lastplayed?.['#text'] || game.stats?.lastplayed || '';
+        if (!lastPlayed) return 10; // Never played: highest weight
+        const daysAgo = Math.floor((now - new Date(lastPlayed)) / (1000 * 60 * 60 * 24));
+        return Math.max(1, daysAgo); // More days ago = higher weight
+      });
+
+      // Weighted random selection
+      const totalWeight = weights.reduce((a, b) => a + b, 0);
+      let rand = Math.random() * totalWeight;
+      for (let i = 0; i < collection.length; i++) {
+        if (rand < weights[i]) {
+          setChosenGame(collection[i]);
+          return;
+        }
+        rand -= weights[i];
+      }
+      setChosenGame(collection[collection.length - 1]);
+    } else {
+      // Uniform random selection
+      const game = collection[Math.floor(Math.random() * collection.length)];
+      setChosenGame(game);
+    }
+  }, [activeCollection, filters.nonRecencyBias]);
 
   useEffect(() => {
     if (activeCollection.length > 0) chooseRandomGame();
