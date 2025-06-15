@@ -18,7 +18,9 @@ export default function ChosenGame(props) {
         minPlayers: props.game.stats['@_minplayers'],
         maxPlayers: props.game.stats['@_maxplayers'],
         bggRating: props.game.stats.rating.average['@_value'],
-        id: props.game['@_objectid']
+        id: props.game['@_objectid'],
+        playCount: props.game.numplays,
+        lastPlayed: props.game.stats.lastplayed?.['#text'] || props.game.stats.lastplayed || 'Never'
     }
 
     const formatPlayerCount = (min, max) => {
@@ -47,6 +49,10 @@ export default function ChosenGame(props) {
                     <Icon color="#319795" as={BsClock}/> {props.game.stats['@_playingtime']}
                     <br />
                     <b style={{color:'#319795'}}>BGG rating:</b> {game.bggRating}
+                    <br />
+                    <b style={{color:'#319795'}}>Total plays:</b> {game.playCount}
+                    <br />
+                    <b style={{color:'#319795'}}>Last played:</b> {game.lastPlayed}
                     <br />
                     <Link 
                         href={`https://boardgamegeek.com/boardgame/${game.id}`} 
