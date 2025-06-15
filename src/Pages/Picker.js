@@ -103,18 +103,60 @@ export default function Picker() {
       filters.minPlayerCount,
       filters.maxPlayerCount
     );
-    setActiveCollection(filteredCollection);
-    setActiveUsername(username);
-    setLoading(false);
 
-    toast({
-      title: filteredCollection.length > 0 ? 'Collection fetched!' : 'No games matched your criteria',
-      description: filteredCollection.length > 0
-        ? 'Collection successfully downloaded'
-        : 'Try adjusting your filters',
-      status: filteredCollection.length > 0 ? 'success' : 'error',
-      duration: 5000,
-      isClosable: true,
+    // Helper to fetch last play date for a game
+    const fetchLastPlayDate = async (gameId) => {
+      try {
+        const res = await axios.get('https://www.boardgamegeek.com/xmlapi2/plays', {
+          params: { id: gameId, type: 'thing' }
+        });
+        const parsed = parser.parse(res.data, { ignoreAttributes: false });
+        const plays = parsed.plays?.play;
+        if (!plays) return null;
+        if (Array.isArray(plays)) {
+          // Multiple plays, get the latest date
+          return plays[plays.length - 1]['@_date'];
+        } else {
+          // Only one play
+          return plays['@_date'];
+        }
+      } catch {
+        return null;
+      }
+    };
+
+    const enrichWithLastPlayed = async (games) => {
+      // Limit concurrent requests to avoid rate limiting
+      const limit = 5;
+      let i = 0;
+      async function next() {
+        if (i >= games.length) return;
+        const idx = i++;
+        const game = games[idx];
+        const lastPlayed = await fetchLastPlayDate(game['@_objectid']);
+        game.stats.lastplayed = lastPlayed || '';
+        await next();
+      }
+      const promises = [];
+      for (let j = 0; j < limit; j++) promises.push(next());
+      await Promise.all(promises);
+      return games;
+    };
+
+    enrichWithLastPlayed(filteredCollection).then((enriched) => {
+      setActiveCollection(enriched);
+      setActiveUsername(username);
+      setLoading(false);
+
+      toast({
+        title: enriched.length > 0 ? 'Collection fetched!' : 'No games matched your criteria',
+        description: enriched.length > 0
+          ? 'Collection successfully downloaded'
+          : 'Try adjusting your filters',
+        status: enriched.length > 0 ? 'success' : 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     });
   };
 
