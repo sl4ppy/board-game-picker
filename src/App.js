@@ -43,7 +43,7 @@ function App() {
         <Text color="gray.400" fontSize="sm">
           All data gathered possible to the official BGG API.
         </Text>
-        <small style={{ fontSize: '0.6em', color: '#A0AEC0' }}>Ver. 0.4.2</small>
+        <small style={{ fontSize: '0.6em', color: '#A0AEC0' }}>Ver. 0.4.3</small>
       </footer>
       <Modal isOpen={isOpen} onClose={onClose} />
     </div>
